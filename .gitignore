@@ -1,4 +1,6 @@
 .bundle
+chef/cookbooks
+chef/tmp
 db/*.sqlite3*
 log/*.log*
 tmp/
