@@ -1,18 +1,22 @@
 name "base"
 description "Base role applied to all nodes."
 run_list(
-  "recipe[apt]"
-  # "recipe[iptables]"
-  # "recipe[openssh]",
+  "recipe[apt]",
+  "recipe[sudo]",
+  "recipe[build-essential]",
+  "recipe[openssh]",
+  "recipe[iptables]",
+  "recipe[iptables::ssh]",
+  "recipe[iptables::boot]",
   # "recipe[zsh]",
-  # "recipe[sudo]",
-  # "recipe[ntp]",
-  # "recipe[build-essential]",
-  # "recipe[vim]",
-  # "recipe[git]",
+  "recipe[ntp]",
+  "recipe[vim]",
+  "recipe[git]",
   # "recipe[ssh_known_hosts]",
-  # "recipe[screen]",
-  # "recipe[hostname]",
-  # "recipe[monit]",
-  # "recipe[fail2ban]"
+  "recipe[screen]",
+  "recipe[hostname]",
+  "recipe[monit]",
+  "recipe[fail2ban]",
+  "recipe[logrotate]"
 )
+# default_attributes()

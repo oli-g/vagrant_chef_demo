@@ -3,7 +3,28 @@
 site "http://community.opscode.com/api/v1"
 
 cookbook "apt"
+cookbook "sudo"
+cookbook "build-essential"
+cookbook "iptables"
+cookbook "openssh"
+cookbook "runit"
+# cookbook "zsh"
 cookbook "ntp"
+cookbook "vim"
+cookbook "git"
+# cookbook "ssh_known_hosts"
+cookbook "screen"
+cookbook "hostname"
+cookbook "monit", :git => "https://github.com/phlipper/chef-monit"
+cookbook "fail2ban"
+cookbook "logrotate"
+
+cookbook "ruby_build", :git => "https://github.com/fnichol/chef-ruby_build"
+cookbook "rbenv", :git => "https://github.com/fnichol/chef-rbenv"
+cookbook "apache2"
+cookbook "nginx"
+
+cookbook "database"
 
 # cookbook 'chef-client'
 # cookbook 'apache2', '>= 1.0.0'
