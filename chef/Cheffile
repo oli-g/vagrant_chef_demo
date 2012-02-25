@@ -15,7 +15,7 @@ cookbook "git"
 # cookbook "ssh_known_hosts"
 cookbook "screen"
 cookbook "hostname"
-cookbook "monit", :git => "https://github.com/phlipper/chef-monit"
+# cookbook "monit", :git => "https://github.com/phlipper/chef-monit"
 cookbook "fail2ban"
 cookbook "logrotate"
 

@@ -39,7 +39,7 @@ SITE
 GIT
   remote: https://github.com/fnichol/chef-rbenv
   ref: master
-  sha: a45325903dbd2f1d5538a718a50050e97ae4e0c6
+  sha: c92e7ac536ebfdebb02943a8bc5ceab0c577faef
   specs:
     rbenv (0.6.5)
 
@@ -49,13 +49,6 @@ GIT
   sha: 05454b507d4832a8d7f351aba953df4a2ef3d770
   specs:
     ruby_build (0.6.1)
-
-GIT
-  remote: https://github.com/phlipper/chef-monit
-  ref: master
-  sha: 9c0a3e457161f99c57a180aaf45358642dcf4cde
-  specs:
-    monit (0.1.0)
 
 DEPENDENCIES
   apache2 (>= 0)
@@ -67,7 +60,6 @@ DEPENDENCIES
   hostname (>= 0)
   iptables (>= 0)
   logrotate (>= 0)
-  monit (>= 0)
   nginx (>= 0)
   ntp (>= 0)
   openssh (>= 0)
