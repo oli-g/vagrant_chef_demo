@@ -63,7 +63,7 @@ plugin:
 
     gem install knife-github-cookbooks
     cd chef-repo
-    knife cookbook github install oli-g/chef-rbenv_passenger/v0.8.0
+    knife cookbook github install oli-g/chef-rbenv_passenger/v0.0.1
 
 ## As a Git Submodule
 
@@ -110,19 +110,19 @@ Installs Passenger as an Nginx module. Requires the `nginx::source` recipe.
 The version of Passenger to deploy. This will be in a format used by the gem
 command. For example:
 
-    node['rbenv_passenger']['version'] = "3.0.8"
+    node[:rbenv_passenger][:version] = "3.0.8"
 
 Default is the most current version which is queried dynamically from RubyGems.
 
 ## rbenv_ruby
 
-The Rbenv Ruby under which to install the passenger gem.
+The Rbenv Ruby under which to install the Passenger gem.
 For example:
 
-    node['rbenv_passenger']['rbenv_ruby'] = "ruby-1.8.7-p352"
+    node[:rbenv_passenger][:rbenv_ruby] = "ruby-1.8.7-p352"
 
 Default is the global Rbenv Ruby, i.e.
-`"#{node['rbenv']['global']}"`.
+`"#{node[:rbenv][:global]}"`.
 
 ## root_path
 

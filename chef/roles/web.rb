@@ -3,9 +3,16 @@ description "Install web stack with Rbenv, Nginx and Passenger, and Redis key-va
 run_list(
   "recipe[ruby_build]",
   "recipe[rbenv::system]",
+  "recipe[nginx::source]",
   "recipe[rbenv_passenger::nginx]",
-  "recipe[iptables::web]",
-  "recipe[logrotate]" #,
+  "recipe[iptables::web]"
   # "recipe[redis]"
 )
-# default_attributes()
+
+# Attributes applied if the node doesn't have it set already.
+default_attributes()
+
+# Attributes applied no matter what the node has set already.
+override_attributes()
+
+# NGINX::SOURCE: https://gist.github.com/1221259

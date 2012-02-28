@@ -1,11 +1,10 @@
 #
 # Cookbook Name:: rbenv_passenger
-# Based on rvm_passenger
 # Recipe:: default
 #
-# Author:: Fletcher Nichol <fnichol@nichol.ca>
+# Author:: Giannicola Olivadoti <olinicola@gmail.com>
 #
-# Copyright:: 2010, 2011, Fletcher Nichol
+# Copyright:: 2012, Giannicola Olivadoti
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,47 +19,71 @@
 # limitations under the License.
 
 class Chef::Recipe
-  # mix in recipe helpers
   include Chef::RbenvPassenger::RecipeHelpers
 end
 
 determine_rbenv_passenger_version_if_not_given
 determine_rbenv_ruby_version_if_not_given
 
-ruby_version      = node['rbenv_passenger']['rbenv_ruby']
-passenger_version = node['rbenv_passenger']['version']
+ruby_version      = node[:rbenv_passenger][:rbenv_ruby]
+passenger_version = node[:rbenv_passenger][:version]
 
 include_recipe "rbenv::system"
 
-Array(node['rbenv_passenger']['common_pkgs']).each do |pkg|
+Array(node[:rbenv_passenger][:common_pkgs]).each do |pkg|
   package pkg
 end
 
-# make sure that the specified ruby version is installed through Rbenv
+# Make sure that the specified Ruby version is installed through Rbenv
 rbenv_ruby ruby_version
 
+# Install Passenger gem for the specified Ruby version
 rbenv_gem "passenger" do
-  action          :install
   rbenv_version   ruby_version
   version         passenger_version
+  action          :install
 end
 
-# calculate the root_path attribute. This is evaluated in the
-# execute phase because the Rbenv environment is queried and the Ruby must be
-# installed.
-rbenv_script "Calculate Rbenv Passenger root path" do
-  rbenv_version   ruby_version
-  code            "passenger-config --root > /tmp/rbenv_passenger_root_path"
+# Calculate the Passenger root path attribute. This is evaluated in the execute phase
+# because the Rbenv environment is queried and the Ruby must be installed.
+# rbenv_script "calculate_rbenv_passenger_root_path" do
+#   rbenv_version   ruby_version
+#   code            "passenger-config --root > /tmp/rbenv_passenger_root_path"
+#   not_if          "test -f /tmp/rbenv_passenger_root_path"
+# end
+ruby_block "calculate_rbenv_passenger_root_path" do
+  block do
+    rbenv_root_path = node[:rbenv][:root_path]
+    result = %x(/bin/bash -c 'RBENV_ROOT=#{rbenv_root_path} PATH=$RBENV_ROOT/bin:$PATH RBENV_VERSION=#{ruby_version} passenger-config --root').sub("\n", "")
+    
+    node.set[:rbenv_passenger][:passenger_root_path] = result
+    Chef::Log.debug(%{Setting node[:rbenv_passenger][:passenger_root_path] = "#{node[:rbenv_passenger][:passenger_root_path]}"})
+     
+    ::File.open("/tmp/rbenv_passenger_root_path", "w") { |f| f.write result }
+  end
   
-  not_if          "test -f /tmp/rbenv_passenger_root_path"
+  # INFO HERE: http://wiki.opscode.com/display/chef/Resources
+  not_if  { node[:rbenv_passenger][:passenger_root_path] }
 end
 
-# calculate the ruby_wrapper attribute if it isn't set. This is evaluated in
-# the execute phase because the RVM environment is queried and the Ruby must be
-# installed.
-rbenv_script "Calculate Rbenv Ruby root path" do
-  rbenv_version   ruby_version
-  code            "rbenv which ruby > /tmp/rbenv_ruby_root_path"
+
+# Calculate the Ruby root path attribute if it isn't set. This is evaluated in the
+# execute phase because the Rbenv environment is queried and the Ruby must be installed.
+# rbenv_script "calculate_rbenv_ruby_root_path" do
+#   rbenv_version   ruby_version
+#   code            "rbenv which ruby > /tmp/rbenv_ruby_root_path"
+#   not_if          "test -f /tmp/rbenv_ruby_root_path"
+# end
+ruby_block "calculate_rbenv_ruby_root_path" do
+  block do
+    rbenv_root_path = node[:rbenv][:root_path]
+    result = %x(/bin/bash -c 'RBENV_ROOT=#{rbenv_root_path} PATH=$RBENV_ROOT/bin:$PATH RBENV_VERSION=#{ruby_version} rbenv which ruby').sub("\n", "")
+    
+    node.set[:rbenv_passenger][:ruby_root_path] = result
+    Chef::Log.debug(%{Setting node[:rbenv_passenger][:ruby_root_path] = "#{node[:rbenv_passenger][:ruby_root_path]}"})
+    
+    ::File.open("/tmp/rbenv_ruby_root_path", "w") { |f| f.write result }
+  end
   
-  not_if          "test -f /tmp/rbenv_ruby_root_path"
+  not_if  { node[:rbenv_passenger][:ruby_root_path] }
 end

@@ -27,11 +27,11 @@
 include_recipe "nginx::source"
 include_recipe "rbenv_passenger"
 
-configure_flags = node['nginx']['configure_flags'].join(" ")
-nginx_install   = node['nginx']['install_path']
-nginx_version   = node['nginx']['version']
-nginx_dir       = node['nginx']['dir']
-archive_cache   = node['nginx']['archive_cache'] || Chef::Config['file_cache_path']
+configure_flags = node[:nginx][:configure_flags].join(" ")
+nginx_install   = node[:nginx][:install_path]
+nginx_version   = node[:nginx][:version]
+nginx_dir       = node[:nginx][:dir]
+archive_cache   = node[:nginx][:archive_cache] || Chef::Config['file_cache_path']
 
 remote_file "#{archive_cache}/nginx-#{nginx_version}.tar.gz" do
   source  "http://sysoev.ru/nginx/nginx-#{nginx_version}.tar.gz"
@@ -41,12 +41,11 @@ end
 bash "extract_nginx_source" do
   cwd     archive_cache
   code    %{tar zxf nginx-#{nginx_version}.tar.gz}
-  
   not_if  %{test -d #{archive_cache}/nginx-#{nginx_version}}
 end
 
 rbenv_script "install_passenger_nginx_module" do
-  rbenv_version     node['rbenv_passenger']['rbenv_ruby']
+  rbenv_version     node[:rbenv_passenger][:rbenv_ruby]
   code              <<-INSTALL
     passenger-install-nginx-module \
         --auto \
@@ -54,11 +53,9 @@ rbenv_script "install_passenger_nginx_module" do
         --nginx-source-dir=#{archive_cache}/nginx-#{nginx_version} \
         --extra-configure-flags="#{configure_flags}"
   INSTALL
-  notifies          :restart, resources(:service => "nginx")
-  
+  notifies          :restart, resources(:service => "nginx"), :delayed
   not_if            <<-CHECK
-    #{nginx_install}/sbin/nginx -V 2>&1 | \
-        grep "`cat /tmp/rbenv_passenger_root_path`/ext/nginx"
+    #{nginx_install}/sbin/nginx -V 2>&1 | grep "`cat /tmp/rbenv_passenger_root_path`/ext/nginx"
   CHECK
 end
 
@@ -67,17 +64,9 @@ template "#{nginx_dir}/conf.d/passenger.conf" do
   owner     "root"
   group     "root"
   mode      "0644"
-  variables(
-    :passenger_ruby => %x(cat /tmp/rbenv_ruby_root_path).sub("\n",""),
-    :passenger_root => %x(cat /tmp/rbenv_passenger_root_path).sub("\n","")
-  )
-  notifies  :restart, resources(:service => "nginx")
+  notifies  :restart, resources(:service => "nginx"), :delayed
 end
 
-file "/tmp/rbenv_passenger_root_path" do
-  action  :delete
-end
-
-file "/tmp/rbenv_ruby_root_path" do
-  action  :delete
-end
+# file "/tmp/rbenv_passenger_root_path" do
+#   action  :delete
+# end

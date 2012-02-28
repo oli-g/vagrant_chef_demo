@@ -36,6 +36,9 @@ Vagrant::Config.run do |config|
   # folder, and the third is the path on the host to the actual folder.
   # config.vm.share_folder "v-data", "/vagrant_data", "../data"
 
+  # Customize VM
+  # config.vm.customize ["modifyvm", :id, "--memory", "768"]
+
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in
@@ -59,21 +62,24 @@ Vagrant::Config.run do |config|
   #   puppet.manifest_file  = "base.pp"
   # end
 
+  # Need chef 0.10.4 in order to use databags
+  config.vm.provision :shell, :inline => "/opt/ruby/bin/gem install chef -v 0.10.4 --no-ri --no-rdoc"
+
   # Enable provisioning with chef solo, specifying a cookbooks path (relative
   # to this Vagrantfile), and adding some recipes and/or roles.
-  #
+  #  
   config.vm.provision :chef_solo do |chef|
+    chef.log_level = :debug
+    
     chef.cookbooks_path = ["chef/cookbooks", "chef/site-cookbooks"]
     chef.roles_path = "chef/roles"
     chef.data_bags_path = "chef/data-bags"
-    chef.log_level = :debug
-
+    
     chef.add_role "base"
     chef.add_role "web"
     chef.add_role "database"
-
+    
     chef.json.merge! JSON.parse(File.read "chef/dna.json")
-    # chef.json.merge!({})
   end
 
   # Enable provisioning with chef server, specifying the chef server URL,

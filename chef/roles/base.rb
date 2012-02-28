@@ -2,6 +2,7 @@ name "base"
 description "Base role applied to all nodes."
 run_list(
   "recipe[apt]",
+  "recipe[users::sysadmins]",
   "recipe[sudo]",
   "recipe[build-essential]",
   "recipe[openssh]",
@@ -16,7 +17,12 @@ run_list(
   "recipe[screen]",
   "recipe[hostname]",
   "recipe[monit]",
-  "recipe[fail2ban]",
-  "recipe[logrotate]"
+  "recipe[fail2ban]"
+  # "recipe[logrotate]"
 )
-# default_attributes()
+
+# Attributes applied if the node doesn't have it set already.
+default_attributes()
+
+# Attributes applied no matter what the node has set already.
+override_attributes()

@@ -2,9 +2,9 @@
 # Cookbook Name:: rbenv_passenger
 # Library:: Chef::RbenvPassenger::RecipeHelpers
 #
-# Author:: Fletcher Nichol <fnichol@nichol.ca>
+# Author:: Giannicola Olivadoti <olinicola@gmail.com>
 #
-# Copyright 2011, Fletcher Nichol
+# Copyright 2012, Giannicola Olivadoti
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,25 +25,25 @@ class Chef
       ##
       # Sets the version attribute to the most current RubyGems release, unless set
       def determine_rbenv_passenger_version_if_not_given
-        if node['rbenv_passenger']['version'].nil?
-          require 'rubygems'
-          require 'rubygems/dependency_installer'
+        if node[:rbenv_passenger][:version].nil?
+          require "rubygems"
+          require "rubygems/dependency_installer"
           
           spec = Gem::DependencyInstaller.new.find_gems_with_sources(Gem::Dependency.new("passenger")).last[0]
           
-          node.set['rbenv_passenger']['version'] = spec.version.to_s
-          Chef::Log.debug(%{Setting node['rbenv_passenger']['version'] = } + %{"#{node['rbenv_passenger']['version']}"})
+          node.set[:rbenv_passenger][:version] = spec.version.to_s
+          Chef::Log.debug(%{Setting node[:rbenv_passenger][:version] = } + %{"#{node[:rbenv_passenger][:version]}"})
         end
       end
       
       ##
       # Sets the rbenv_ruby attribute to rbenv global ruby, unless set
       def determine_rbenv_ruby_version_if_not_given
-        if node['rbenv_passenger']['rbenv_ruby'].nil?
-          ruby_version = node['rbenv']['global']
+        if node[:rbenv_passenger][:rbenv_ruby].nil?
+          ruby_version = node[:rbenv][:global]
           
-          node.set['rbenv_passenger']['rbenv_ruby'] = ruby_version
-          Chef::Log.debug(%{Setting node['rbenv_passenger']['rbenv_ruby'] = } + %{"#{node['rbenv_passenger']['rbenv_ruby']}"})
+          node.set[:rbenv_passenger][:rbenv_ruby] = ruby_version
+          Chef::Log.debug(%{Setting node[:rbenv_passenger][:rbenv_ruby] = } + %{"#{node[:rbenv_passenger][:rbenv_ruby]}"})
         end
       end
     end

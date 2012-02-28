@@ -39,3 +39,4 @@ set httpd port <%= node[:monit][:web_interface][:port] %> and
 
 # Include config files
 include /etc/monit/conf.d/*
+include /var/www/*/current/config/monit/*.conf;

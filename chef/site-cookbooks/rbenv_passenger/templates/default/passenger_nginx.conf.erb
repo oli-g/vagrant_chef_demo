@@ -1,2 +1,5 @@
-passenger_root <%= @passenger_root %>;
-passenger_ruby <%= @passenger_ruby %>;
+passenger_root <%= node[:rbenv_passenger][:passenger_root_path] %>;
+passenger_ruby <%= node[:rbenv_passenger][:ruby_root_path] %>;
+
+passenger_default_user <%= node[:rbenv_passenger][:passenger_user] %>;
+passenger_default_group <%= node[:rbenv_passenger][:passenger_group] %>;

@@ -15,21 +15,17 @@
   "set_fqdn": "vagrantbox.staging",
   
   "rbenv": { 
-    "rubies": ["1.9.3-p125"],
-    "global": "1.9.3-p125",
+    "rubies": ["ree-1.8.7-2012.02"],
+    "global": "ree-1.8.7-2012.02",
     "gems": {
-      "1.9.3-p125": [
-        { "name": "bundler", "version": "1.1.rc.7", "rbenv_version": "1.9.3-p125" }
+      "ree-1.8.7-2012.02": [
+        { "name": "bundler", "version": "1.1.rc.7", "rbenv_version": "ree-1.8.7-2012.02" }
       ]
     }
   },
   
-  "nginx": {
-    "version": "1.0.12"
-  },
-  
   "mysql": { 
-    "server_root_password": "th3f00l",
+    "server_root_password": "password_master",
     "bind_address": "127.0.0.1"
   }
 }
