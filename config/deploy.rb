@@ -10,15 +10,15 @@ set :default_stage, "staging"
 
 set :application, "vagrant_chef_demo"
 
-# default_run_options[:pty]   = true  # must be set for the password prompt from git to work
+default_run_options[:pty]   = true  # must be set for the password prompt from git to work
 ssh_options[:forward_agent] = true    # use local keys instead of the ones on the server
-# on :start do 
-#   `ssh-add` 
-# end
+on :start do 
+  `ssh-add` 
+end
 
 set :deploy_to, "/var/www/vagrant_chef_demo"
 set :deploy_via, :remote_cache
-set :use_sudo, false
+set :use_sudo, true
 
 # Repo details
 set :scm, :git

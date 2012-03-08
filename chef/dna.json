@@ -15,11 +15,11 @@
   "set_fqdn": "vagrantbox.staging",
   
   "rbenv": { 
-    "rubies": ["ree-1.8.7-2012.02"],
-    "global": "ree-1.8.7-2012.02",
+    "rubies": ["ree-1.8.7-2012.01"],
+    "global": "ree-1.8.7-2012.01",
     "gems": {
-      "ree-1.8.7-2012.02": [
-        { "name": "bundler", "version": "1.1.rc.7", "rbenv_version": "ree-1.8.7-2012.02" }
+      "ree-1.8.7-2012.01": [
+        { "name": "bundler", "version": "1.1.rc.7", "rbenv_version": "ree-1.8.7-2012.01" }
       ]
     }
   },

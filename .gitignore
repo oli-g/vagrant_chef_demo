@@ -1,4 +1,5 @@
 .bundle
+.vagrant
 chef/cookbooks
 chef/tmp
 db/*.sqlite3*
