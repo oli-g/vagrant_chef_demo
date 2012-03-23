@@ -27,6 +27,7 @@ end
 
 group :staging, :production do
   gem 'mysql2'
+  gem 'therubyracer'
 end 
 
 # To use ActiveModel has_secure_password
