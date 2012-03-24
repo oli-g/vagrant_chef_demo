@@ -1,4 +1,4 @@
-set :user, "deploy"
+set :user, "deployer"
 
 role :web, "192.168.211.240"
 role :app, "192.168.211.240"

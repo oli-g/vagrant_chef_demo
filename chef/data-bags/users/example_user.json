@@ -1,8 +1,0 @@
-{
-  "id": "example_user",
-  "groups": "sysadmin",
-  "ssh_keys": [
-    "ssh_public_key"
-  ],
-  "shell": "\/bin\/bash"
-}

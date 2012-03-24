@@ -3,6 +3,7 @@ description "Base role applied to all nodes."
 run_list(
   "recipe[apt]",
   "recipe[users::sysadmins]",
+  "recipe[users::deployers]",
   "recipe[sudo]",
   "recipe[build-essential]",
   "recipe[openssh]",

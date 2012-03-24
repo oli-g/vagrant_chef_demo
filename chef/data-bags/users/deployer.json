@@ -1,0 +1,12 @@
+{
+  "id": "deployer",
+  "groups": [
+    "sysadmin",
+    "www-data"
+  ],
+  "ssh_keys": [
+    "Add your SSH Public Key",
+    "Add another SSH Public Key if needed"
+  ],
+  "shell": "\/bin\/bash"
+}

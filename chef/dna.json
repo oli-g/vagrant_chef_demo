@@ -7,7 +7,7 @@
   
   "authorization": {
     "sudo": {
-      "users": ["deploy", "vagrant"],
+      "users": ["deployer", "vagrant"],
       "passwordless": "true"
     }
   },
@@ -19,7 +19,7 @@
     "global": "1.9.3-p0",
     "gems": {
       "1.9.3-p0": [
-        { "name": "bundler", "version": "1.1.rc.7", "rbenv_version": "1.9.3-p0" }
+        { "name": "bundler", "version": "1.1.0", "rbenv_version": "1.9.3-p0" }
       ]
     }
   },
